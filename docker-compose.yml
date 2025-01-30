@@ -1,0 +1,39 @@
+services:
+  web:
+    container_name: emne8-arbeidskrav-web-compose
+    image: methang/docker-compose-web
+    ports:
+      - "80:80"
+      - "81:81"
+    depends_on:
+      - api
+    networks:
+      - arbeidskrav-nett
+
+
+  api: 
+    container_name: emne8-arbeidskrav-api-compose
+    image: methang/docker-compose-api
+    depends_on:
+      - db
+    networks:
+      - arbeidskrav-nett
+    environment:
+      - ConnectionStrings__DefaultConnection=Server=emne8-arbeidskrav-db-compose;Database=Emne8_Arbeidskrav;User ID=ga-app;Password=ga-5ecret-%;
+
+
+  db:
+    container_name: emne8-arbeidskrav-db-compose
+    image: methang/docker-compose-db
+    volumes:
+      - arbeidskrav-data:/var/lib/mysql
+    networks:
+      - arbeidskrav-nett
+
+
+networks:
+  arbeidskrav-nett:
+    driver: bridge
+
+volumes:
+  arbeidskrav-data:
