@@ -5,13 +5,30 @@ namespace Arbeidskrav_API.Features.Books;
 
 public class BookService : IBookService
 {
+    
+    private readonly IBookRepository _bookRepository;
+    private readonly IBookMapper _bookMapper;
+    private readonly IBookRegistrationMapper _bookRegistrationMapper;
+
+    public BookService(IBookRepository bookRepository, IBookMapper bookMapper, IBookRegistrationMapper bookRegistrationMapper)
+    {
+        _bookRepository = bookRepository;
+        _bookMapper = bookMapper;
+        _bookRegistrationMapper = bookRegistrationMapper;
+    }
     public async Task<IEnumerable<BookDTO>> GetAllAsync()
     {
-        throw new NotImplementedException();
+        var books = await _bookRepository.GetAllsync();
+
+        return books.Select(bks => _bookMapper.MapToDTO(bks)).ToList();
     }
 
     public async Task<BookDTO> AddAsync(BookRegistrationDTO addDto)
     {
-        throw new NotImplementedException();
+        var book = _bookRegistrationMapper.MapToModel(addDto);
+        
+        var addedBook =  await _bookRepository.AddAsync(book);
+        
+        return _bookMapper.MapToDTO(addedBook);
     }
 }

@@ -3,11 +3,11 @@ using Arbeidskrav_API.Features.Books.Interface;
 
 namespace Arbeidskrav_API.Features.Books.Mappers;
 
-public class BookRegistrationMapper : IBookMapper
+public class BookRegistrationMapper : IBookRegistrationMapper
 {
-    public BookDTO MapToDTO(Book book)
+    public BookRegistrationDTO MapToDTO(Book book)
     {
-        return new BookDTO()
+        return new BookRegistrationDTO()
         {
             Author = book.Author,
             Title = book.Title,
@@ -15,7 +15,7 @@ public class BookRegistrationMapper : IBookMapper
         };
     }
 
-    public Book MapToModel(BookDTO bookDTO)
+    public Book MapToModel(BookRegistrationDTO bookDTO)
     {
         return new Book()
         {

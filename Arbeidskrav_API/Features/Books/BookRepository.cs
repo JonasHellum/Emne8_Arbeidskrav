@@ -1,6 +1,7 @@
 using Arbeidskrav_API.Data;
 using Arbeidskrav_API.Features.Books.Classes;
 using Arbeidskrav_API.Features.Books.Interface;
+using Microsoft.EntityFrameworkCore;
 
 namespace Arbeidskrav_API.Features.Books;
 
@@ -15,11 +16,14 @@ public class BookRepository : IBookRepository
 
     public async Task<IEnumerable<Book>> GetAllsync()
     {
-        throw new NotImplementedException();
+        var books = await _dbContext.Books.ToListAsync();
+        return books;
     }
 
-    public async Task<Book> AddAsync(BookDTO bookDto)
+    public async Task<Book> AddAsync(Book book)
     {
-        throw new NotImplementedException();
+        await _dbContext.Books.AddAsync(book);
+        await _dbContext.SaveChangesAsync();
+        return book;
     }
 }
